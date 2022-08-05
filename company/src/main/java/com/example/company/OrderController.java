@@ -59,7 +59,7 @@ class OrderController {
   @PostMapping("/orders")
   ResponseEntity<EntityModel<Order>> newOrder(@RequestBody Order order) {
 
-    order.setStatus(Status.IN_PROGRESS);
+    order.setStatus(OrderStaus.IN_PROGRESS);
     Order newOrder = orderRepository.save(order);
 
     return ResponseEntity //
@@ -73,8 +73,8 @@ class OrderController {
     Order order = orderRepository.findById(id) //
         .orElseThrow(() -> new OrderNotFoundException(id));
 
-    if (order.getStatus() == Status.IN_PROGRESS) {
-      order.setStatus(Status.COMPLETED);
+    if (order.getStatus() == OrderStaus.IN_PROGRESS) {
+      order.setStatus(OrderStaus.COMPLETED);
       return ResponseEntity.ok(assembler.toModel(orderRepository.save(order)));
     }
 
@@ -93,8 +93,8 @@ class OrderController {
     Order order = orderRepository.findById(id) //
         .orElseThrow(() -> new OrderNotFoundException(id));
 
-    if (order.getStatus() == Status.IN_PROGRESS) {
-      order.setStatus(Status.CANCELLED);
+    if (order.getStatus() == OrderStaus.IN_PROGRESS) {
+      order.setStatus(OrderStaus.CANCELLED);
       
       return ResponseEntity.ok(assembler.toModel(orderRepository.save(order)));
     }

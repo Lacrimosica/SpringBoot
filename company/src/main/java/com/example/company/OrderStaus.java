@@ -1,6 +1,6 @@
 package com.example.company;
 
-enum Status {
+enum OrderStaus {
 
   IN_PROGRESS, //
   COMPLETED, //

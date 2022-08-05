@@ -37,8 +37,8 @@ class LoadDatabase {
       });
 
       
-      orderRepository.save(new Order("MacBook Pro", Status.COMPLETED));
-      orderRepository.save(new Order("iPhone", Status.IN_PROGRESS));
+      orderRepository.save(new Order("MacBook Pro", OrderStaus.COMPLETED));
+      orderRepository.save(new Order("iPhone", OrderStaus.IN_PROGRESS));
 
       orderRepository.findAll().forEach(order -> {
         log.info("Preloaded " + order);

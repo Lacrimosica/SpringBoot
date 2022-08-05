@@ -15,14 +15,14 @@ public class Order {
 
 	  private @Id @GeneratedValue Long id;	//apparently you can put annotations where ever you want;
 	  private String description;
-	  private Status status;
+	  private OrderStaus orderStatus;
 	
 	  Order() {}
 	
-	  Order(String description, Status status) {
+	  Order(String description, OrderStaus orderStaus) {
 	
 	    this.description = description;
-	    this.status = status;
+	    this.orderStatus = orderStaus;
 	  }
 	
 	  public Long getId() {
@@ -33,8 +33,8 @@ public class Order {
 	    return this.description;
 	  }
 	
-	  public Status getStatus() {
-	    return this.status;
+	  public OrderStaus getStatus() {
+	    return this.orderStatus;
 	  }
 	
 	  public void setId(Long id) {
@@ -45,8 +45,8 @@ public class Order {
 	    this.description = description;
 	  }
 	
-	  public void setStatus(Status status) {
-	    this.status = status;
+	  public void setStatus(OrderStaus orderStaus) {
+	    this.orderStatus = orderStaus;
 	  }
 	
 	  @Override
@@ -58,16 +58,16 @@ public class Order {
 	      return false;
 	    Order order = (Order) o;
 	    return Objects.equals(this.id, order.id) && Objects.equals(this.description, order.description)
-	        && this.status == order.status;
+	        && this.orderStatus == order.orderStatus;
 	  }
 	
 	  @Override
 	  public int hashCode() {
-	    return Objects.hash(this.id, this.description, this.status);
+	    return Objects.hash(this.id, this.description, this.orderStatus);
 	  }
 	
 	  @Override
 	  public String toString() {
-	    return "Order{" + "id=" + this.id + ", description='" + this.description + '\'' + ", status=" + this.status + '}';
+	    return "Order{" + "id=" + this.id + ", description='" + this.description + '\'' + ", status=" + this.orderStatus + '}';
 	  }
 }
