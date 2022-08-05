@@ -45,8 +45,8 @@ class LoadDatabase {
       });
       
       
-      projectRepository.save(new Project("REST API" , "create a rest API"));
-      projectRepository.save(new Project("Consulting" , "consult a company"));
+      projectRepository.save(new Project("REST API" , "create a rest API" , ProjectStatus.NOT_ASSIGNED));
+      projectRepository.save(new Project("Consulting" , "consult a company", ProjectStatus.NOT_ASSIGNED));
      
       projectRepository.findAll().forEach(project -> {
     	  log.info("Preloade " + project);

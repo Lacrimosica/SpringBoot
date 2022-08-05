@@ -22,10 +22,10 @@ public class Project {
 	
 	Project() {};
 	
-	Project(String name, String description){
+	Project(String name, String description, ProjectStatus status){
 		this.name = name;
 		this.description = description;
-		this.status = ProjectStatus.NOT_ASSIGNED;
+		this.status = status;
 	}
 
 	public Long getId() {
