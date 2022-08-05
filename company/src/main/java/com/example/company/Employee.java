@@ -4,6 +4,7 @@ import java.util.TreeMap;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
@@ -13,8 +14,10 @@ public class Employee {
 	
 	//id is marked with more JPA annotations to indicate it’s the primary key and
 	//automatically populated by the JPA provider.
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private  Long id;
 	
-	private @Id @GeneratedValue Long id;
 	private String firstName;
 	private String lastName;
 	private String role;

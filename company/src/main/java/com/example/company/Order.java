@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -12,8 +13,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "CUSTOMER_ORDER")				//this is used to change the name of the table
 public class Order {
-
-	  private @Id @GeneratedValue Long id;	//apparently you can put annotations where ever you want;
+	 @Id 
+	 @GeneratedValue(strategy=GenerationType.AUTO)
+	  private Long id;	//apparently you can put annotations where ever you want;
 	  private String description;
 	  private OrderStaus orderStatus;
 	
