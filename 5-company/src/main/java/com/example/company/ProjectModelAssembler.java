@@ -17,7 +17,7 @@ public class ProjectModelAssembler implements RepresentationModelAssembler<Proje
 				linkTo(methodOn(ProjectController.class).all()).withRel("projects"));
 	
 		if(project.getStatus() == ProjectStatus.NOT_ASSIGNED) {
-			projectModel.add(linkTo(methodOn(ProjectController.class).cancel(project.getId())).withRel("delete"));
+			projectModel.add(linkTo(methodOn(ProjectController.class).cancel(project.getId())).withRel("cancel"));
 		}
 		return projectModel;
 	}
