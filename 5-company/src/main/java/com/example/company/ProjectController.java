@@ -92,7 +92,7 @@ public class ProjectController {
 	
 	
 	//Done
-	@DeleteMapping("/projects/{id}/delete")
+	@DeleteMapping("/projects/{id}/cancel")
 	ResponseEntity<?> cancel(@PathVariable Long id) {
 		Project project = repository.findById(id)
 				.orElseThrow( () -> new ProjectNotFoundException(id));

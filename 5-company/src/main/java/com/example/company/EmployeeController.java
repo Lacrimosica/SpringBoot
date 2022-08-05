@@ -119,16 +119,18 @@ public class EmployeeController {
 	  }
 	  
 	  //To Assign a project to an employee
-	  @PostMapping("/employees/{ids}/assignments/{idp}")
+	  @PostMapping("/employees/{ids}/assign/{idp}")
 	  void assignProject(@PathVariable Long ids , @PathVariable Long idp) {
 		  employeeRepository.findById(ids)
-		  		.map( e -> e.getProjects().putIfAbsent(idp, projectRepository.findById(idp).orElseThrow( () -> new ProjectNotFoundException(idp))));
+		  		.map( e -> e.getProjects()
+		  				.putIfAbsent(idp, projectRepository.findById(idp).orElseThrow( () -> new ProjectNotFoundException(idp))));
 		  	
-		  	projectRepository.findById(idp).ifPresent( p -> p.setSupervisor( employeeRepository.findById(ids).orElseThrow( () -> new EmployeeNotFoundException(idp))));
+		  	projectRepository.findById(idp)
+		  		.ifPresent( p -> p.setSupervisor( employeeRepository.findById(ids).orElseThrow( () -> new EmployeeNotFoundException(idp))));
 
 	  }
 	  
-	  @PutMapping("/employees/{ids}/assignments/{idp}/unassign")
+	  @PutMapping("/employees/{ids}/unassign/{idp}")
 	  ResponseEntity<?> unassignProject(@PathVariable Long ids , @PathVariable Long idp) {
 		  Project project= projectRepository.findById(idp)
 				  .orElseThrow( () -> new ProjectNotFoundException(idp));
