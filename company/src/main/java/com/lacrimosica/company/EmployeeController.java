@@ -2,6 +2,9 @@ package com.lacrimosica.company;
 
 import java.util.List;
 
+import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,14 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 class EmployeeController {
-
     private final EmployeeRepository repository;
-
     EmployeeController(EmployeeRepository repository) {
         this.repository = repository;
     }
-
-
     // Aggregate root
     // tag::get-aggregate-root[]
     @GetMapping("/employees")
@@ -29,8 +28,8 @@ class EmployeeController {
     // end::get-aggregate-root[]
 
     @PostMapping("/employees")
-    Employee newEmployee(@RequestBody Employee newEmployee) {
-        return repository.save(newEmployee);
+    ResponseEntity<Employee> newEmployee(@RequestBody Employee newEmployee) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(newEmployee));
     }
 
     // Single item
@@ -43,22 +42,24 @@ class EmployeeController {
     }
 
     @PutMapping("/employees/{id}")
-    Employee replaceEmployee(@RequestBody Employee newEmployee, @PathVariable Long id) {
+    ResponseEntity<Employee> replaceEmployee(@RequestBody Employee newEmployee, @PathVariable Long id) {
 
         return repository.findById(id)
                 .map(employee -> {
                     employee.setName(newEmployee.getName());
                     employee.setRole(newEmployee.getRole());
-                    return repository.save(employee);
+                    return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(employee));
                 })
                 .orElseGet(() -> {
                     newEmployee.setId(id);
-                    return repository.save(newEmployee);
+                    return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(newEmployee));
                 });
     }
 
+
     @DeleteMapping("/employees/{id}")
-    void deleteEmployee(@PathVariable Long id) {
+    ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
         repository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
