@@ -2,7 +2,6 @@ package com.lacrimosica.company;
 
 import java.util.List;
 
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,11 +18,10 @@ class EmployeeController {
     EmployeeController(EmployeeRepository repository) {
         this.repository = repository;
     }
-    // Aggregate root
-    // tag::get-aggregate-root[]
+
     @GetMapping("/employees")
-    List<Employee> all() {
-        return repository.findAll();
+    ResponseEntity<List<Employee>> all() {
+        return ResponseEntity.status(HttpStatus.OK).body(repository.findAll());
     }
     // end::get-aggregate-root[]
 
@@ -35,10 +33,12 @@ class EmployeeController {
     // Single item
 
     @GetMapping("/employees/{id}")
-    Employee one(@PathVariable Long id) {
+    ResponseEntity<Employee> one(@PathVariable Long id) {
 
-        return repository.findById(id)
+        Employee employee = repository.findById(id)
                 .orElseThrow(() -> new EmployeeNotFoundException(id));
+
+        return ResponseEntity.status(HttpStatus.OK).body(employee);
     }
 
     @PutMapping("/employees/{id}")
