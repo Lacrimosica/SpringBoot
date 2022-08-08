@@ -1,6 +1,8 @@
 package com.example.company;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
-import java.util.TreeMap;
+import java.util.HashSet;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +23,8 @@ public class Employee {
     private String firstName;
     private String lastName;
     private String role;
-    private TreeMap<Long , Project> projects;
+    @SuppressWarnings("JpaAttributeTypeInspection")
+//    private HashSet<Project> projects;
 
 
     //a constructor that does nothing and is later overloaded
@@ -69,13 +72,13 @@ public class Employee {
         return role;
     }
 
-    public TreeMap<Long, Project> getProjects() {
-        return projects;
-    }
-
-    public void takeProject(Project project) {
-        this.projects.put(project.getId() , project);
-    }
+//    public HashSet<Project> getProjects() {
+//        return projects;
+//    }
+//
+//    public void takeProject(Project project) {
+//        this.projects.add(project);
+//    }
 
     @Override
     public boolean equals(Object o) {

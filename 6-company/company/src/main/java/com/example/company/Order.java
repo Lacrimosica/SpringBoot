@@ -17,11 +17,11 @@ public class Order {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;	//apparently you can put annotations where ever you want;
     private String description;
-    private OrderStaus orderStatus;
+    private OrderStatus orderStatus;
 
     public Order() {}
 
-    Order(String description, OrderStaus orderStaus) {
+    Order(String description, OrderStatus orderStaus) {
 
         this.description = description;
         this.orderStatus = orderStaus;
@@ -35,7 +35,7 @@ public class Order {
         return this.description;
     }
 
-    public OrderStaus getStatus() {
+    public OrderStatus getStatus() {
         return this.orderStatus;
     }
 
@@ -47,7 +47,7 @@ public class Order {
         this.description = description;
     }
 
-    public void setStatus(OrderStaus orderStaus) {
+    public void setStatus(OrderStatus orderStaus) {
         this.orderStatus = orderStaus;
     }
 

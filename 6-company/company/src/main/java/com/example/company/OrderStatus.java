@@ -1,8 +1,7 @@
 package com.example.company;
 
-enum OrderStaus {
-
-    IN_PROGRESS,
+public enum OrderStatus {
     COMPLETED,
+    IN_PROGRESS,
     CANCELLED
 }

@@ -28,15 +28,17 @@ import java.util.stream.Collectors;
 public class EmployeeController {
 
     private final EmployeeRepository employeeRepository;
-    private final ProjectRepository projectRepository;
+//    private final ProjectRepository projectRepository;
     private final EmployeeModelAssembler employeeAssembler;
-    private final ProjectModelAssembler projectAssembler;
+//    private final ProjectModelAssembler projectAssembler;
 
-    EmployeeController(EmployeeRepository repository, ProjectRepository projectRepository, EmployeeModelAssembler employeeAssembler, ProjectModelAssembler projectAssembler){
-        this.employeeRepository = repository;
+    EmployeeController(EmployeeRepository employeeRepository,
+                       EmployeeModelAssembler employeeAssembler)
+    {
+        this.employeeRepository = employeeRepository;
         this.employeeAssembler = employeeAssembler;
-        this.projectAssembler = projectAssembler;
-        this.projectRepository = projectRepository;
+//        this.projectAssembler = projectAssembler;
+//        this.projectRepository = projectRepository;
     }
 
 
@@ -107,49 +109,49 @@ public class EmployeeController {
 
 
     //To get all the projects assigned to an employee
-    @GetMapping("/employees/{ids}/assignments")
-    CollectionModel<EntityModel<Project>> getAllAssignments(@PathVariable Long ids) {
-        List<EntityModel<Project>> projects =employeeRepository.findById(ids).
-                map(e -> e.getProjects().values().stream().
-                        map(projectAssembler::toModel)
-                        .collect(Collectors.toList()))
-                .orElseThrow(() -> new EmployeeNotFoundException(ids));
-
-        return CollectionModel.of(projects, linkTo(methodOn(ProjectController.class).all()).withSelfRel());
-    }
+//    @GetMapping("/employees/{ids}/assignments")
+//    CollectionModel<EntityModel<Project>> getAllAssignments(@PathVariable Long ids) {
+//        List<EntityModel<Project>> projects =employeeRepository.findById(ids).
+//                map(e -> e.getProjects().values().stream().
+//                        map(projectAssembler::toModel)
+//                        .collect(Collectors.toList()))
+//                .orElseThrow(() -> new EmployeeNotFoundException(ids));
+//
+//        return CollectionModel.of(projects, linkTo(methodOn(ProjectController.class).all()).withSelfRel());
+//    }
 
     //To Assign a project to an employee
-    @PostMapping("/employees/{ids}/assign/{idp}")
-    void assignProject(@PathVariable Long ids , @PathVariable Long idp) {
-        employeeRepository.findById(ids)
-                .map( e -> e.getProjects()
-                        .putIfAbsent(idp, projectRepository.findById(idp).orElseThrow( () -> new ProjectNotFoundException(idp))));
+//    @PostMapping("/employees/{ids}/assign/{idp}")
+//    void assignProject(@PathVariable Long ids , @PathVariable Long idp) {
+//        employeeRepository.findById(ids)
+//                .map( e -> e.getProjects()
+//                        .putIfAbsent(idp, projectRepository.findById(idp).orElseThrow( () -> new ProjectNotFoundException(idp))));
+//
+//        projectRepository.findById(idp)
+//                .ifPresent( p -> p.setSupervisor( employeeRepository.findById(ids).orElseThrow( () -> new EmployeeNotFoundException(idp))));
+//
+//    }
 
-        projectRepository.findById(idp)
-                .ifPresent( p -> p.setSupervisor( employeeRepository.findById(ids).orElseThrow( () -> new EmployeeNotFoundException(idp))));
-
-    }
-
-    @PutMapping("/employees/{ids}/unassign/{idp}")
-    ResponseEntity<?> unassignProject(@PathVariable Long ids , @PathVariable Long idp) {
-        Project project= projectRepository.findById(idp)
-                .orElseThrow( () -> new ProjectNotFoundException(idp));
-
-        Employee supervisor = employeeRepository.findById(ids)
-                .orElseThrow(() -> new EmployeeNotFoundException(ids));
-
-        ProjectStatus st = project.getStatus();
-
-        if(st == ProjectStatus.NOT_ASSIGNED || st == ProjectStatus.CANCELLED) {
-            return ResponseEntity.badRequest()
-                    .body("Cannot unassign a project that is in the " + st + "status");
-        }
-
-        supervisor.getProjects().remove(idp);
-        project.setSupervisor(null);	//is this good practice? ASK
-        project.setStatus(ProjectStatus.NOT_ASSIGNED);
-        return ResponseEntity.ok(projectAssembler.toModel(projectRepository.save(project)));
-    }
+//    @PutMapping("/employees/{ids}/unassign/{idp}")
+//    ResponseEntity<?> unassignProject(@PathVariable Long ids , @PathVariable Long idp) {
+//        Project project= projectRepository.findById(idp)
+//                .orElseThrow( () -> new ProjectNotFoundException(idp));
+//
+//        Employee supervisor = employeeRepository.findById(ids)
+//                .orElseThrow(() -> new EmployeeNotFoundException(ids));
+//
+//        ProjectStatus st = project.getStatus();
+//
+//        if(st == ProjectStatus.NOT_ASSIGNED || st == ProjectStatus.CANCELLED) {
+//            return ResponseEntity.badRequest()
+//                    .body("Cannot unassign a project that is in the " + st + "status");
+//        }
+//
+//        supervisor.getProjects().remove(idp);
+//        project.setSupervisor(null);	//is this good practice? ASK
+//        project.setStatus(ProjectStatus.NOT_ASSIGNED);
+//        return ResponseEntity.ok(projectAssembler.toModel(projectRepository.save(project)));
+//    }
 
 
 }

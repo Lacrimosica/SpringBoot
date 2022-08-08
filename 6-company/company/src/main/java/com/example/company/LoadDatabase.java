@@ -12,7 +12,9 @@ class LoadDatabase {
 
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
     @Bean
-    CommandLineRunner initDatabase(EmployeeRepository employeeRepository, OrderRepository orderRepository , ProjectRepository projectRepository) {
+    CommandLineRunner initDatabase(EmployeeRepository employeeRepository, OrderRepository orderRepository
+//                                   ProjectRepository projectRepository
+                                   ) {
 
         return args -> {
             employeeRepository.save(new Employee("Bilbo", "Baggins", "burglar"));
@@ -21,16 +23,16 @@ class LoadDatabase {
             employeeRepository.findAll().forEach(employee -> log.info("Preloaded " + employee));
 
 
-            orderRepository.save(new Order("MacBook Pro", OrderStaus.COMPLETED));
-            orderRepository.save(new Order("iPhone", OrderStaus.IN_PROGRESS));
+            orderRepository.save(new Order("MacBook Pro", OrderStatus.COMPLETED));
+            orderRepository.save(new Order("iPhone", OrderStatus.IN_PROGRESS));
 
             orderRepository.findAll().forEach(order -> log.info("Preloaded " + order));
 
 
-            projectRepository.save(new Project("REST API" , "create a rest API" , ProjectStatus.NOT_ASSIGNED));
-            projectRepository.save(new Project("Consulting" , "consult a company", ProjectStatus.NOT_ASSIGNED));
+//            projectRepository.save(new Project("REST API" , "create a rest API" , ProjectStatus.NOT_ASSIGNED));
+//            projectRepository.save(new Project("Consulting" , "consult a company", ProjectStatus.NOT_ASSIGNED));
 
-            projectRepository.findAll().forEach(project -> log.info("Preloade " + project));
+//            projectRepository.findAll().forEach(project -> log.info("Preloade " + project));
 
         };
     }
