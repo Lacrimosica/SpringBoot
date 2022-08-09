@@ -22,7 +22,7 @@ public class ProjectController {
     @GetMapping("/projects/{id}")
     ResponseEntity<Project> one(@PathVariable Long id) {
         return repository.findById(id)
-                .map(project -> ResponseEntity.status(HttpStatus.OK).body(project))
+                .map(project -> ResponseEntity.status(HttpStatus.OK).body(proj  ect))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
