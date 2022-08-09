@@ -1,7 +1,9 @@
 package com.lacrimosica.company;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,8 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 class EmployeeController {
     private final EmployeeRepository repository;
-    EmployeeController(EmployeeRepository repository) {
+    private final ProjectRepository projectRepository;
+
+    EmployeeController(EmployeeRepository repository,
+                       ProjectRepository projectRepository) {
         this.repository = repository;
+        this.projectRepository= projectRepository;
     }
 
     @GetMapping("/employees")
@@ -61,5 +67,17 @@ class EmployeeController {
     ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
         repository.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+
+    @GetMapping("/employees/{id}/projects")
+    ResponseEntity<List<Project>> getAssignedProjects(@PathVariable Long id){
+
+       List<Project> projects = projectRepository.findAll().stream().filter(project -> project.getSupervisorId() == id)
+               .collect(Collectors.toList());
+        if(projects.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(projects);
     }
 }

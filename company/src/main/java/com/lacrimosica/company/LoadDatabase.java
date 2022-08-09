@@ -12,7 +12,9 @@ class LoadDatabase {
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
     @Bean
-    CommandLineRunner initDatabase(EmployeeRepository employeeRepository, OrderRepository orderRepository) {
+    CommandLineRunner initDatabase(EmployeeRepository employeeRepository,
+                                   OrderRepository orderRepository,
+                                   ProjectRepository projectRepository) {
 
         return args -> {
             employeeRepository.save(new Employee("Bilbo", "Baggins", "burglar"));
@@ -28,6 +30,9 @@ class LoadDatabase {
                 log.info("Preloaded " + order);
             });
 
+            projectRepository.save(new Project("Project 1" , ProjectStatus.UN_ASSIGNED));
+            projectRepository.save(new Project("Project 2" , ProjectStatus.UN_ASSIGNED));
+            projectRepository.save(new Project("Project 3" , ProjectStatus.UN_ASSIGNED));
         };
     }
 }
