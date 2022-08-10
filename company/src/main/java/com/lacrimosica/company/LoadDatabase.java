@@ -30,9 +30,9 @@ class LoadDatabase {
                 log.info("Preloaded " + order);
             });
 
-            projectRepository.save(new Project("Project 1" , ProjectStatus.UN_ASSIGNED));
-            projectRepository.save(new Project("Project 2" , ProjectStatus.UN_ASSIGNED));
-            projectRepository.save(new Project("Project 3" , ProjectStatus.UN_ASSIGNED));
+            projectRepository.save(new Project("Project 1" ));
+            projectRepository.save(new Project("Project 2" ));
+            projectRepository.save(new Project("Project 3" ));
         };
     }
 }

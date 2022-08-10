@@ -1,6 +1,8 @@
 package com.lacrimosica.company;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -13,11 +15,14 @@ public class Project {
     private String name;
     private ProjectStatus status;
 
+    @Transient
+    private Employee supervisor;
+
     public Project() {}
 
-    public Project(String name, ProjectStatus status) {
+    public Project(String name) {
         this.name = name;
-        this.status = status;
+        this.status = ProjectStatus.UN_ASSIGNED;
     }
 
     //all getters and setters
@@ -53,6 +58,13 @@ public class Project {
         this.status = status;
     }
 
+    public Employee getSupervisor() {
+        return supervisor;
+    }
+
+    public void setSupervisor(Employee supervisor) {
+        this.supervisor = supervisor;
+    }
 
     @Override
     public boolean equals(Object o) {

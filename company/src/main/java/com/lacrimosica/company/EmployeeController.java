@@ -2,8 +2,6 @@ package com.lacrimosica.company;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,14 +27,11 @@ class EmployeeController {
     ResponseEntity<List<Employee>> all() {
         return ResponseEntity.status(HttpStatus.OK).body(repository.findAll());
     }
-    // end::get-aggregate-root[]
 
     @PostMapping("/employees")
     ResponseEntity<Employee> newEmployee(@RequestBody Employee newEmployee) {
         return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(newEmployee));
     }
-
-    // Single item
 
     @GetMapping("/employees/{id}")
     ResponseEntity<Employee> one(@PathVariable Long id) {
@@ -69,6 +64,19 @@ class EmployeeController {
         return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping("/employees/{ide1}/{ide2}/delete")
+    ResponseEntity<?> deleteEmployees(@PathVariable Long ide1, @PathVariable Long ide2) {
+        System.out.println(repository.count());
+
+        if(repository.count() < ide2 || ide1 <= 0){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Range is invalid");
+        }
+        repository.findAll().stream()
+                .filter(e -> e.getId() >= ide1 && e.getId() <= ide2)
+                .forEach(e -> repository.delete(e));
+        return ResponseEntity.noContent().build();
+    }
+
 
     @GetMapping("/employees/{id}/projects")
     ResponseEntity<List<Project>> getAssignedProjects(@PathVariable Long id){
@@ -80,4 +88,6 @@ class EmployeeController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(projects);
     }
+
+
 }

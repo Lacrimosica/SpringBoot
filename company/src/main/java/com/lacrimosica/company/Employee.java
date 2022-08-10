@@ -1,20 +1,24 @@
 package com.lacrimosica.company;
 
+import java.util.HashMap;
 import java.util.Objects;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 class Employee {
 
+    @Column(name = "Id")
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
+    @Column(name = "FirstName")
     private String firstName;
+    @Column(name = "LastName")
     private String lastName;
+    @Column(name = "Role")
     private String role;
 
+    @Transient
+    private HashMap<String , Project> projects;
     public Employee() {}
 
     Employee(String firstName, String lastName, String role) {
