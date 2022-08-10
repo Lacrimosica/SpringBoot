@@ -69,6 +69,12 @@ class Employee {
     public void setRole(String role) {
         this.role = role;
     }
+    public HashMap<String , Project> getProjects() {
+        return projects;
+    }
+    public void setProjects(HashMap<String , Project> projects) {
+        this.projects = projects;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -44,6 +44,7 @@ public class ProjectController {
                     p.setStatus(ProjectStatus.ASSIGNED);
                     p.setSupervisorId(ids);
                     p.setSupervisor(supervisor);
+                    supervisor.getProjects().putIfAbsent(p.getName(), p);
                     return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(p));
                 }).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }

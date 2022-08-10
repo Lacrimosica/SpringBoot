@@ -81,7 +81,8 @@ class EmployeeController {
     @GetMapping("/employees/{id}/projects")
     ResponseEntity<List<Project>> getAssignedProjects(@PathVariable Long id){
 
-       List<Project> projects = projectRepository.findAll().stream().filter(project -> project.getSupervisorId() == id)
+       List<Project> projects = projectRepository.findAll()
+               .stream().filter(project -> project.getSupervisorId() == id)
                .collect(Collectors.toList());
         if(projects.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
